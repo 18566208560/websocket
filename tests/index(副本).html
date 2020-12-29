@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.3.0/jquery.min.js"></script>
+</head>
+<body>
+    <button id="btn">发送消息</button>
+    <button id="btn2">关闭连接</button>
+<script>
+jQuery(function(){
+    //var	SOCKET_ADDRESS = "ws://172.33.0.9:5000/api/ws";
+    var	SOCKET_ADDRESS = "wss://127.0.0.1:10443/api/ws";
+    //var	SOCKET_ADDRESS = "wss://192.168.128.223:10443/api/ws?token=eyJhbGciOiJIUzUxMiIsImlhdCI6MTYwODI1NzA2MCwiZXhwIjoxNjA4MjkzMDYwfQ.eyJ1dWlkIjoiQTk5NjU5OENDNjk1RTBCNTdCRkQ0MjA2NDgwRTIzMTAifQ.s0MBkeIK9vKGcZPPhp02V7h9ROLwyCqN7ruNF5F5p6PrJE_rGf9TufwwjBWJONV4a-8el634-LDNSJDPEkdkww";
+    //var	SOCKET_ADDRESS = "wss://192.168.128.223:10443/api/ws?token=eyJhbGciOiJIUzUxMiIsImlhdCI6MTYwODI2NjE2MiwiZXhwIjoxNjA4MzAyMTYyfQ.eyJ1dWlkIjoiNzJBNTVGOEI5MTlFNkJDNDY5N0Y0OTAwQjc0MEYxQTQifQ.wZHO1eLPPIY6HryGjqi8Uxdt6f3xbrWW7hGK1gS3TMuD24Kshbodq6W1ufXx1oXAR9Ot02-gY-aTYTZvraz0Yw";
+    ws = new WebSocket(SOCKET_ADDRESS);
+    ws.onopen = function() {
+        var avatar="xxx";
+        var username="ooo";
+        ws.send('{"c":"j", "a":"'+avatar+'", "u":"'+username+'"}');   //c=command  j=join (ask server to join)  a=avatar e(mperor) v(assal) m(ule)
+    };
+			
+    ws.onmessage = function(env) {   // when websocket receives a message
+        var msg_in = env.data;
+        console.log(msg_in)
+
+    }
+
+    ws.onclose = function() {
+        alert("Connection is closed..."); 
+    };
+
+    $("#btn").click(function(){
+        ws.send('{"name":"btn"}'); 
+    })
+
+    $("#btn2").click(function(){
+        ws.close(); 
+    })
+
+
+
+})
+
+</script>
+
+</body>
+</html>
